@@ -1,0 +1,3 @@
+[submodule "WaveSabre"]
+	path = WaveSabre
+	url = https://github.com/logicomacorp/WaveSabre.git
