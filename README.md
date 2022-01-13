@@ -11,6 +11,7 @@ WaveSabre executable music example code.
 * Create an out-of-source build folder, for example `build`.
 * Run `cmake [SOURCE_ROOT] -A Win32`.
 * Run `cmake --build . --config Release`. You might need to re-enter the command once.
+* In the folder `[BUILD_FOLDER]/Release` you can now find your binaries and a release archive.
 
 # How to change the track
 * Place a DAW project file containing your track in the `Track/` subdirectory (or anywhere else, if you must).
