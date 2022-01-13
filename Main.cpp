@@ -1,19 +1,19 @@
 /* wavesabre-executable-msx
- * Copyright (C) 2022  Alexander Kraus <nr4@z10.info>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
+* Copyright (C) 2022  Alexander Kraus <nr4@z10.info>
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 #include "WaveSabrePlayerLib.h"
 using namespace WaveSabrePlayerLib;
@@ -57,7 +57,7 @@ LRESULT CALLBACK DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	double time;
 	int seconds, minutes, hours;
 	char timerText[64];
-    
+	
 	switch(uMsg)
 	{
 		case WM_COMMAND:
@@ -66,19 +66,19 @@ LRESULT CALLBACK DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				case PLAY_BUTTON:
 					player->Play();
 					EnableWindow(hPlayButton, FALSE);
-                    break;
+					break;
 
-                case SAVE_WAV_BUTTON:
+				case SAVE_WAV_BUTTON:
 					WavWriter(&Song, N_RENDER_THREADS).Write(WAVE_FILE_NAME, drawProgressBar, nullptr);
 					EnableWindow(hWriteWavButton, FALSE);
-				    break;
+					break;
 
 				case EXIT_BUTTON:
 					PostQuitMessage(0);
 					break;
-            }
-            break;
-            
+			}
+			break;
+			
 		case WM_CLOSE:
 			ExitProcess(0);
 			break;
@@ -113,8 +113,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wc.lpszClassName = (LPCSTR)EXECUTABLE_NAME;
 	wc.hIconSm = NULL;
 	RegisterClassEx(&wc);
-    
-    hWnd = CreateWindowEx(0, wc.lpszClassName, (LPCSTR)EXECUTABLE_NAME, WS_OVERLAPPEDWINDOW, 200, 200, 339, 150, NULL, NULL, hInstance, 0);
+	
+	hWnd = CreateWindowEx(0, wc.lpszClassName, (LPCSTR)EXECUTABLE_NAME, WS_OVERLAPPEDWINDOW, 200, 200, 339, 150, NULL, NULL, hInstance, 0);
 	
 	CreateWindow(WC_STATIC, (LPCSTR)"", WS_VISIBLE | WS_CHILD | SS_LEFT, 0,0,321,180, hWnd, NULL, hInstance, NULL);
 	CreateWindow(WC_STATIC, TRACK_NAME_AUTHOR, WS_VISIBLE | WS_CHILD | SS_LEFT, 10,10,301,20, hWnd, NULL, hInstance, NULL);
@@ -128,18 +128,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	EnableWindow(hWriteWavButton, FALSE);
 	
 	hProgressBar = CreateWindowEx(0, PROGRESS_CLASS, (LPSTR)NULL, WS_VISIBLE | WS_CHILD, 10, 30, 301, 20, hWnd, (HMENU)PROGRESS_BAR, hInstance, NULL);
-    SendMessage(hProgressBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100)); 
-    SendMessage(hProgressBar, PBM_SETSTEP, (WPARAM)1, 0);
+	SendMessage(hProgressBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100)); 
+	SendMessage(hProgressBar, PBM_SETSTEP, (WPARAM)1, 0);
 
 	hTrackbar = CreateWindowEx(0, TRACKBAR_CLASS, (LPCSTR)"Music Trackbar", WS_CHILD | WS_VISIBLE, 80, 53, 238, 20, hWnd, (HMENU) TRACK_BAR, hInstance, NULL); 
-    SendMessage(hTrackbar, TBM_SETTICFREQ, 10, NULL);
+	SendMessage(hTrackbar, TBM_SETTICFREQ, 10, NULL);
 	EnableWindow(hTrackbar, false);
 
 	ShowWindow(hWnd, TRUE);
 	UpdateWindow(hWnd);
 
 	player = new PreRenderPlayer(&Song, 8, drawProgressBar, nullptr);
-    SendMessage(hTrackbar, TBM_SETRANGE, (WPARAM) TRUE, (LPARAM) MAKELONG(0, player->GetLength()));
+	SendMessage(hTrackbar, TBM_SETRANGE, (WPARAM) TRUE, (LPARAM) MAKELONG(0, player->GetLength()));
 
 	MSG msg = {0};
 	SetTimer(hWnd, TIMER, 100, (TIMERPROC) NULL); 
