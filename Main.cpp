@@ -85,13 +85,16 @@ LRESULT CALLBACK DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		case WM_TIMER:
 			time = player->GetSongPos();
-			if(time >= player->GetLength()) KillTimer(hWnd, TIMER);
-			seconds = time;
-			minutes = seconds / 60;
-			hours = minutes / 60;
-			SendMessage(hTrackbar, TBM_SETPOS, (WPARAM) TRUE, (LPARAM) time);
-			sprintf(timerText, "%02d:%02d:%02d", hours, minutes - hours * 60, seconds - minutes * 60 - hours * 3600);
-			SetWindowText(hTimeElapsed, (LPCSTR)timerText); 
+			if(time >= player->GetLength()) EnableWindow(hPlayButton, TRUE);
+			else
+			{
+				seconds = time;
+				minutes = seconds / 60;
+				hours = minutes / 60;
+				SendMessage(hTrackbar, TBM_SETPOS, (WPARAM) TRUE, (LPARAM) time);
+				sprintf(timerText, "%02d:%02d:%02d", hours, minutes - hours * 60, seconds - minutes * 60 - hours * 3600);
+				SetWindowText(hTimeElapsed, (LPCSTR)timerText);
+			}
 			break;
 	}
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
