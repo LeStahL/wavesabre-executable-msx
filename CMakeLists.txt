@@ -30,7 +30,8 @@ set(EXECUTABLE_NAME example-project CACHE STRING "Name of the executable.")
 set(TRACK_NAME "Example track" CACHE STRING "Name of the track.")
 set(TRACK_AUTHOR "Example author" CACHE STRING "Author of the track.")
 set(TRACK_PROJECT_FILE "${PROJECT_SOURCE_DIR}/WaveSabre/Tests/WaveSabreConvertTests/Tests/Punqtured's Tune.xrns" CACHE PATH "Path to the track project file.")
-set(N_RENDER_THREADS 8 CACHE STRING "Number of render threads.")
+set(N_RENDER_THREADS 8 CACHE INT "Number of threads to render your product with.")
+set(PRECALC OFF CACHE BOOL "Configure if track will be precalced or computed while playing.")
 
 add_custom_target(music.h ALL ConvertTheFuck ${TRACK_PROJECT_FILE} -h music.h)
 
@@ -63,11 +64,17 @@ target_link_libraries(${EXECUTABLE_NAME}
 	${WAVESABRE_VST_PLUGINS}
 )
 
+set(PRECALC_OPTION 0)
+if(${PRECALC})
+	set(PRECALC_OPTION 1)
+endif()
+
 target_compile_definitions(${EXECUTABLE_NAME} PUBLIC 
 	EXECUTABLE_NAME="${EXECUTABLE_NAME}"
 	TRACK_NAME_AUTHOR="${TRACK_NAME} by ${TRACK_AUTHOR}"
 	WAVE_FILE_NAME="${EXECUTABLE_NAME}.wav"
 	N_RENDER_THREADS=${N_RENDER_THREADS}
+	PRECALC=${PRECALC_OPTION}
 )
 
 target_include_directories(${EXECUTABLE_NAME} PUBLIC 

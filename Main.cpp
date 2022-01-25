@@ -124,10 +124,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	hPlayButton = CreateWindow(WC_BUTTON, (LPCSTR)"Play", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 10, 77, 100, 25, hWnd, (HMENU)PLAY_BUTTON, hInstance, NULL);
 	hWriteWavButton = CreateWindow(WC_BUTTON, (LPCSTR)"Write .wav", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 111, 77, 99, 25, hWnd, (HMENU)SAVE_WAV_BUTTON, hInstance, NULL);
 	hExitButton = CreateWindow(WC_BUTTON, (LPCSTR)"Exit", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 211, 77, 100, 25, hWnd, (HMENU)EXIT_BUTTON, hInstance, NULL);
+
+#if PRECALC
 	EnableWindow(hPlayButton, FALSE);
 	EnableWindow(hWriteWavButton, FALSE);
-	
+#endif
+
 	hProgressBar = CreateWindowEx(0, PROGRESS_CLASS, (LPSTR)NULL, WS_VISIBLE | WS_CHILD, 10, 30, 301, 20, hWnd, (HMENU)PROGRESS_BAR, hInstance, NULL);
+
 	SendMessage(hProgressBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100)); 
 	SendMessage(hProgressBar, PBM_SETSTEP, (WPARAM)1, 0);
 
@@ -138,7 +142,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(hWnd, TRUE);
 	UpdateWindow(hWnd);
 
-	player = new PreRenderPlayer(&Song, 8, drawProgressBar, nullptr);
+#if PRECALC
+	player = new PreRenderPlayer(&Song, N_RENDER_THREADS, drawProgressBar, nullptr);
+#else
+	player = new RealtimePlayer(&Song, N_RENDER_THREADS);
+#endif
+
 	SendMessage(hTrackbar, TBM_SETRANGE, (WPARAM) TRUE, (LPARAM) MAKELONG(0, player->GetLength()));
 
 	MSG msg = {0};
