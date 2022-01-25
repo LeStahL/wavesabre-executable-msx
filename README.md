@@ -17,6 +17,7 @@ WaveSabre executable music example code.
 # How to change the track
 * Place a DAW project file containing your track in the `Track/` subdirectory (or anywhere else, if you must).
 * Either open CMakeLists.txt and change the variables for `EXECUTABLE_NAME`, `TRACK_NAME`, `TRACK_AUTHOR`, `TRACK_PROJECT_FILE`, `PRECALC` or `N_RENDER_THREADS` according to your needs. Make sure to change `TRACK_PROJECT_FILE` to exactly the path you chose to save your project file to, or override them by supplying `-DEXECUTABLE_NAME="YourName"` in the command line of the first CMake command above.
+* If you edited the defaults in your CMakeLists.txt, remove the Cache using `rm CMakeCache.txt` in your build folder and re-run the cmake commands from the build instructions.
 
 # Licenses
 * wavesabre-executable-msx is GPLv3 and (c) 2022 Alexander Kraus <nr4@z10.info>; see LICENSE for details.
