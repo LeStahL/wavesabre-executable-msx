@@ -2,9 +2,9 @@
 WaveSabre executable music example code.
 
 # Build instructions
+* Install Git (from <https://git-scm.com/download>).
 * Clone the repository.
 * Install CMake (from <https://cmake.org/download/>).
-* Install Git (from <https://git-scm.com/download>).
 * Install the Visual C++ Toolkit 2022 (from <https://aka.ms/vs/17/release/vs_BuildTools.exe>).
 * Install the .NET Framework Developer pack 4.6.1 (from <https://www.microsoft.com/de-de/download/details.aspx?id=49978>).
 * Add the binary folders of all of those to your `PATH` variable.
